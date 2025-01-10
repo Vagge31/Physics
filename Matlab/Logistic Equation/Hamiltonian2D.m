@@ -3,9 +3,11 @@ m = 1;                  % Μάζα σώματος
 M = 1;                  % Μάζα κεντρικού σώματος
 G = 1;                  % Σταθερά βαρύτητας
 h = 0.01;               % Βήμα χρόνου
-t_max = 100;             % Μέγιστος χρόνος
+t_max = 100;            % Μέγιστος χρόνος
 N = t_max / h;          % Αριθμός βημάτων
 
+V = @(r) -G*M*m/r;             % Παράδειγμα: Δυναμική ενέργεια 
+dVdr = @(r) G*M*m/r^2;
 % Αρχικές συνθήκες
 r0 = 3;                 % Αρχική ακτίνα
 theta0 = 0;             % Αρχική γωνία
@@ -30,7 +32,7 @@ for n = 1:N-1
     % Εξισώσεις κίνησης
     drdt = pr(n) / m;
     dthetadt = ptheta(n) / (m * r(n)^2);
-    dprdt = ptheta(n)^2 / (m * r(n)^3) - G * M * m / r(n)^2;
+    dprdt = ptheta(n)^2 / (m * r(n)^3) - dVdx(r(n));
     dpthetadt = 0; % Σταθερή ορμή
 
     % Ενημέρωση μεταβλητών
@@ -53,3 +55,9 @@ ylabel('$y$','Interpreter','latex');
 title('Trajectory of a particle in potential $V(r)$','Interpreter','latex');
 grid on;
 axis equal;
+
+%Veff=(ptheta0^2/(2*m))*X.^(-2)-G*M*m*X.^(-1) +G^2*M^2*X.^(-2);
+%Y=Veff;
+%plot(X,Y,'LineWidth', 2);
+%xlim([0, 3])
+%ylim([0, 5])
