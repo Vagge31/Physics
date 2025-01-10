@@ -3,45 +3,45 @@ clc
 % Παράμετροι του συστήματος
 m = 1;          % Μάζα
 tspan = [0 20]; % Χρονικό διάστημα ολοκλήρωσης
-q0 = 1;         % Αρχική θέση
+x0 = 1;         % Αρχική θέση
 p0 = 0;         % Αρχική ορμή
 
-% Αρχικές συνθήκες (q, p)
-y0 = [q0; p0];
+% Αρχικές συνθήκες (x, p)
+X0 = [x0; p0];
 
-V = @(q) q^4/4;             % Παράδειγμα: Δυναμική ενέργεια 
-dVdq = @(q) q^3;                   % Παράγωγος της V(q)
+V = @(x) x^4/4;             % Παράδειγμα: Δυναμική ενέργεια 
+dVdx = @(x) x^3;                   % Παράγωγος της V(x)
 
 % Αριθμητική ολοκλήρωση με ode45
-[t, y] = ode45(@(t, y) general_hamiltonian(t, y, m, dVdq), tspan, y0);
+[t, y] = ode45(@(t, y) general_hamiltonian(t, y, m, dVdx), tspan, X0);
 
 
 % Ανάλυση και Γραφική Παράσταση Αποτελεσμάτων
 figure;
-plot(t, y(:,1),'r', 'LineWidth', 2);
+plot(t, X(:,1),'r', 'LineWidth', 2);
 hold on;
-plot(t, y(:,2),'b', 'LineWidth', 2);
+plot(t, X(:,2),'b', 'LineWidth', 2);
 xlabel('$t$','Interpreter','latex');
-ylabel('$q(t),p(t)$','Interpreter','latex');
-legend('$q(t)$', '$p(t)$','Interpreter','latex');
-title('Graphs of position and momentum','Interpreter','latex');
+ylabel('$x(t),p(t)$','Interpreter','latex');
+legend('$x(t)$', '$p(t)$','Interpreter','latex');
+title('Graphs of position $x(t)$ and momentum $p(t)$','Interpreter','latex');
 grid on;
 
-% Φάση του συστήματος (q-p διάγραμμα)
+% Φάση του συστήματος (x-p διάγραμμα)
 figure;
-plot(y(:,1), y(:,2), 'LineWidth', 2);
-xlabel('$q$','Interpreter','latex');
+plot(X(:,1), X(:,2),'b', 'LineWidth', 2);
+xlabel('$x$','Interpreter','latex');
 ylabel('$p$','Interpreter','latex');
-title('Phase diagram','Interpreter','latex');
+title('Phase diagram $p=p(x)$','Interpreter','latex');
 grid on;
 
 % Εξισώσεις Χαμιλτονιανού συστήματος
-function dydt = general_hamiltonian(~, y, m, dVdq)
-    q = y(1); % Θέση
-    p = y(2); % Ορμή
+function dXdt = general_hamiltonian(~, X, m, dVdx)
+    x = X(1); % Θέση
+    p = X(2); % Ορμή
     
-    dqdt = p / m;         % Εξίσωση για τη θέση
-    dpdt = -dVdq(q);      % Εξίσωση για την ορμή (δυναμική ενέργεια)
+    dxdt = p / m;         % Εξίσωση για τη θέση
+    dpdt = -dVdx(x);      % Εξίσωση για την ορμή (δυναμική ενέργεια)
     
-    dydt = [dqdt; dpdt];
+    dXdt = [dxdt; dpdt];
 end
