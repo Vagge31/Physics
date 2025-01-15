@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\usepackage{amsmath,amsthm,amssymb, multicol, array}
+\usepackage{polyglossia}
+%\setdefaultlanguage{greek}
+\setotherlanguages{english}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{moreenum}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{graphicx}
+%opening
+\title{Υπολογιστική Φυσική \\ 1\textsuperscript{η} Εργασία}
+\date{ }
+\author{Πέππας Ευάγγελος (202200124)}
+
+\begin{document}
+\maketitle
+\section*{Πρόβλημα 9 (Λύση)}
+Το πρώτο βήμα για να λύσουμε το πρόβλημα είναι να μετασχηματίσουμε μέσω ενός μετασχηματισμού $T(U)$, τους τυχαίους αριθμούς που ακολουθούν την ομοιόμορφη κατανομή σε τυχαίους αριθμούς που ακολουθούν την κατανομή πυκνότητας πιθανότητας Rayleigh: \\
+\[  f(x) = 
+\begin{cases}
+	\frac{x}{\sigma ^2} e^{-x^2/2\sigma^2} & x \geq 0 \\
+	0 & x<0
+\end{cases}
+\]
+Βρίσκουμε την αθροιστική συνάρτηση κατανομής: 
+\[ F(x) = \int_0^x \frac{x'}{\sigma^2} e^{-x'^2/2\sigma^2}dx' = \left[-e^{-x'^2/2\sigma^2}\right]_0^x = 1 - e^{-x^2/2\sigma^2} \]
+Για να βρούμε τον μετασχηματισμό: 
+\[ F(x) = P(X\leq x) = P(T(U) \leq x) = P(U \leq T^{-1}(x)) = T^{-1}(x)\]
+Συνεπώς, πρέπει: 
+\[ T(x) = F^{-1}(x) = \left[\ln{\left(\frac{1}{(1-x)^{2\sigma^2}} \right)}\right]^{1/2} \]
+Φτιάχνουμε τυχαίους αριθμούς που ακολουθούν την ομοιόμορφη κατανομή στο [0,1], ορίζουμε τις κατάλληλες συναρτήσεις και εφαρμόζουμε τον μετασχηματισμό(ο κώδικας θα επισυναφθεί σε αρχείο .ipynb). \\
+Στο τέλος, για να υπολογίσουμε το ποσοστό των κυμάτων που έχουν ύψος $3m<x<5m$:
+\[ P(3<x<5) = \int_3^5f(x)dx = F(5) - F(3) \approx 0.28 \]
+\end{document}
